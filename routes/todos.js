@@ -29,4 +29,8 @@ router.delete("/deleteTodo/:id", (req, res) => {
   });
 });
 
+router.patch("/toggleTodo", (req, res) => {
+  console.log(req.body);
+});
+
 module.exports = router;
