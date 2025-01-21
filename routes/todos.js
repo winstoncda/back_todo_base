@@ -30,7 +30,17 @@ router.delete("/deleteTodo/:id", (req, res) => {
 });
 
 router.patch("/toggleTodo", (req, res) => {
-  console.log(req.body);
+  const { id } = req.body;
+  const selectSql = "SELECT * FROM todos WHERE id = ?";
+  connection.query(selectSql, [id], (err, result) => {
+    if (err) throw err;
+    let done = result[0].done; //on récupère 0 ou 1
+    let toggleSql = "UPDATE todos SET done = ? WHERE id = ?";
+    connection.query(toggleSql, [done === 0 ? 1 : 0, id], (err, result) => {
+      if (err) throw err;
+      res.status(200).json({ message: "Todo modifiée" });
+    });
+  });
 });
 
 module.exports = router;
