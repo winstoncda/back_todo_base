@@ -19,4 +19,14 @@ router.post("/addTodo", (req, res) => {
   });
 });
 
+router.delete("/deleteTodo/:id", (req, res) => {
+  console.log(req.params);
+  const { id } = req.params;
+  const deleteSql = "DELETE FROM todos WHERE id = ?";
+  connection.query(deleteSql, [id], (err, result) => {
+    if (err) throw err;
+    res.status(200).json({ message: "Todo supprimée" });
+  });
+});
+
 module.exports = router;
